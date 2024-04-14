@@ -42,11 +42,11 @@
 
 ## 二、Request网络请求库
 
-1、简介
+### 1、简介
 
 `requests` 是一个优雅而简洁的 Python HTTP 库，用于发送各种类型的 HTTP 请求。它是 Python 中最受欢迎的 HTTP 客户端库之一，因为它易于使用且功能强大。
 
-2、安装
+### 2、安装
 
 开源地址：https://github.com/psf/requests
 
@@ -58,7 +58,7 @@
 pip install requests -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-3、demo1【**get请求**】
+### 3、demo1【**get请求**】
 
 获取百度网页的信息
 
@@ -77,7 +77,7 @@ print(r.text)
 print(type(r))
 ```
 
-4、demo2【**get请求**】
+#### 4、demo2【**get请求**】
 
 实现百度对`Python`这个关键字的查询，并将查询到的页面进行一个反馈:
 
@@ -99,7 +99,7 @@ print(r.status_code)
 print(r.text)
 ```
 
-5、demo03【**post请求**】
+#### 5、demo03【**post请求**】
 
 在百度翻译输入`orient`发送Get请求，获取搜索的信息
 
@@ -126,5 +126,57 @@ print(r.text)
 #json.loads方法自动把unicode编码转成中文
 result = json.loads(r.text)
 print(result)
+```
+
+## 三、Python反爬
+
+​	很多网站都设置有一定的反爬措施，大量的对数据访问回造成`IP`地址的封禁，为了防止应对反爬虫，我们可以通过设置代理IP。
+
+### 1、代理`IP`简介
+
+​	在网络爬虫、数据采集或访问受限网站时，代理 IP 是常用的工具，它可以帮助隐藏真实 IP 地址并绕过限制，以便顺利获取所需的数据。
+
+### 2、代理IP
+
+匿名程度是：高匿 > 普匿 > 透明。
+
+**1.** **透明代理IP：**顾名思义，服务器知道你在使用代理IP，并且也知道你的真实IP。
+
+**2.** **普匿代理IP：**普匿代理IP要比透明代理IP好一些，但是对方服务器仍然会知道你使用了代理。
+
+**3.** **高匿代理IP：**高匿代理IP不仅可以保护你的IP地址，并且不会改变你的访问请求，让对方服务器毫无察觉，不知道你使用了代理。因此，高匿代理的效果是最好的。
+
+### 3、使用代理IP的基本步骤
+
+(1)**获取代理 IP 地址和端口号**：你可以通过付费或免费的代理服务提供商获取代理 IP 地址和对应的端口号。一些代理服务提供商可能会提供 HTTP、HTTPS 或 SOCKS 代理。
+
+(2)**配置代理参数**：将获取的代理 IP 地址和端口号配置到你的爬虫代码中。
+
+(3)**发送请求时使用代理**：使用 `requests` 或 `urllib` 发送 HTTP 请求时，通过设置代理参数，将请求发送到代理服务器，然后由代理服务器转发请求到目标网站。
+
+### 4、demo4 代理IP使用模板
+
+```python
+import requests
+
+# 代理服务器的地址和端口
+proxy_host = 'YOUR_PROXY_HOST'
+proxy_port = 'YOUR_PROXY_PORT'
+
+# 目标网站
+url = 'https://www.example.com'
+
+# 配置代理参数【可以配置多个】
+proxies = {
+    'http': f'http://{proxy_host}:{proxy_port}',
+    'https': f'https://{proxy_host}:{proxy_port}'
+}
+
+# 使用代理进行请求
+response = requests.get(url, proxies=proxies)
+
+# 处理响应
+print(response.text)
+
 ```
 
